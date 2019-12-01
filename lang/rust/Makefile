@@ -2,10 +2,10 @@
 # $FreeBSD$
 
 PORTNAME=	rust
-PORTVERSION?=	1.31.1
+PORTVERSION?=	1.32.0
 PORTREVISION?=	0
 CATEGORIES=	lang
-MASTER_SITES=	http://static.rust-lang.org/dist/:src \
+MASTER_SITES=	http://dev-static.rust-lang.org/dist/:src \
 		LOCAL/dumbbell/rust:rust_bootstrap \
 		https://static.rust-lang.org/dist/:rust_bootstrap \
 		LOCAL/dumbbell/rust:cargo_bootstrap \
@@ -30,8 +30,8 @@ LICENSE_FILE_APACHE=	${WRKSRC}/LICENSE-APACHE
 LICENSE_FILE_MIT=	${WRKSRC}/LICENSE-MIT
 
 BUILD_DEPENDS=		cmake:devel/cmake
-LIB_DEPENDS=		libgit2.so:devel/libgit2 \
-			libcurl.so:ftp/curl \
+LIB_DEPENDS=		libcurl.so:ftp/curl \
+			libgit2.so:devel/libgit2 \
 			libssh2.so:security/libssh2
 
 ONLY_FOR_ARCHS?=	aarch64 amd64 i386
@@ -42,16 +42,16 @@ BROKEN_aarch64=		fails to build: bootstrap compiler crashes
 CONFLICTS_INSTALL?=	rust-nightly
 
 # See WRKSRC/src/stage0.txt for this date and version values.
-BOOTSTRAPS_DATE?=		2018-10-25
+BOOTSTRAPS_DATE?=		2018-12-20
 
-RUST_BOOTSTRAP_VERSION?=	1.30.0
+RUST_BOOTSTRAP_VERSION?=	1.31.1
 RUSTC_BOOTSTRAP=		${BOOTSTRAPS_DATE_${ARCH}:U${BOOTSTRAPS_DATE}}/rustc-${RUST_BOOTSTRAP_VERSION_${ARCH}:U${RUST_BOOTSTRAP_VERSION}}-${RUST_TARGET}.tar.gz
 RUST_STD_BOOTSTRAP=		${BOOTSTRAPS_DATE_${ARCH}:U${BOOTSTRAPS_DATE}}/rust-std-${RUST_BOOTSTRAP_VERSION_${ARCH}:U${RUST_BOOTSTRAP_VERSION}}-${RUST_TARGET}.tar.gz
 
-CARGO_BOOTSTRAP_VERSION?=	0.31.0
+CARGO_BOOTSTRAP_VERSION?=	0.32.0
 CARGO_BOOTSTRAP=		${BOOTSTRAPS_DATE_${ARCH}:U${BOOTSTRAPS_DATE}}/cargo-${CARGO_BOOTSTRAP_VERSION_${ARCH}:U${CARGO_BOOTSTRAP_VERSION}}-${RUST_TARGET}.tar.gz
 
-CARGO_VENDOR_DIR?=		${WRKSRC}/src/vendor
+CARGO_VENDOR_DIR?=		${WRKSRC}/vendor
 
 RUST_CHANNEL=	${PKGNAMESUFFIX:Ustable:S/^-//}
 
@@ -226,7 +226,7 @@ post-install:
 	        -e 's|(man/man[1-9]/.*\.[0-9])|\1.gz|' \
 	        ${STAGEDIR}${PREFIX}/$$f; \
 	    ${RM} ${STAGEDIR}${PREFIX}/$$f.bak; \
-	    ${ECHO} "${PREFIX}/$$f" >> ${TMPPLIST}; \
+	    ${ECHO_CMD} "${PREFIX}/$$f" >> ${TMPPLIST}; \
 	    ${AWK} '\
 	        /^file:/ { \
 	            file=$$0; \

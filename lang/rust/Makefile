@@ -37,6 +37,10 @@ LIB_DEPENDS=		libcurl.so:ftp/curl \
 ONLY_FOR_ARCHS?=	aarch64 amd64 i386
 ONLY_FOR_ARCHS_REASON=	requires prebuilt bootstrap compiler
 
+RUSTFLAGS="-v"
+RUST_BACKTRACE=1
+WITHOUT_FBSD10_FIX=yes
+USE="-system-llvm"
 BROKEN_aarch64=		fails to build: bootstrap compiler crashes
 
 CONFLICTS_INSTALL?=	rust-nightly

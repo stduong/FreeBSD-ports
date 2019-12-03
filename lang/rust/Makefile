@@ -69,7 +69,7 @@ PLIST_SUB+=		RUST_TARGET=${RUST_TARGET}
 
 USES=		compiler gmake libedit pkgconfig python:2.7,build ssl tar:xz
 
-OPTIONS_DEFINE=		DOCS GDB LLNEXTGEN SOURCES
+OPTIONS_DEFINE=		DOCS GDB LLNEXTGEN SOURCES COMPAT_FREEBSD10
 GDB_DESC=		Install ports gdb (necessary for debugging rust programs)
 LLNEXTGEN_DESC=		Build with grammar verification
 SOURCES_DESC=		Install source files
